@@ -1,0 +1,51 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+// Test in the real game: ./gradlew runClientGameTest (screenshots in build/run/clientGameTest)
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "nbteditorgradients-gametest"
+		enableGameTests = false
+		enableClientGameTests = true
+		eula = true
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// The mod this one extends: the jar of Documents, copied in libs
+	modImplementation files("libs/nbteditor-2.0.9+1.21.11.jar")
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": inputs.properties.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Client and server answer each other as in a real game, not tick for tick.
+tasks.named("runClientGameTest") {
+	jvmArgs "-Dfabric.client.gametest.disableNetworkSynchronizer=true"
+}

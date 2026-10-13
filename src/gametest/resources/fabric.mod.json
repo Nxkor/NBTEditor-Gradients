@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "nbteditorgradients-gametest",
+  "version": "1.0.0",
+  "name": "NBTEditor-Gradients game test",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": ["com.imnot.nbteditorgradients.gametest.NbtEditorGradientsClientTest"]
+  },
+  "depends": {
+    "nbteditorgradients": "*"
+  }
+}

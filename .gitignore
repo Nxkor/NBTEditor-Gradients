@@ -1,0 +1,12 @@
+# Gradle and the game
+.gradle/
+build/
+run/
+*.log
+
+# The jars that are built: they go to the releases of the repository
+release/
+
+# Made by port/port.sh from the root source
+versions/*/src/
+versions/*/mappings.jar

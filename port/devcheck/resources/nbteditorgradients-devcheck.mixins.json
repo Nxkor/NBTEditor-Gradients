@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.imnot.nbteditorgradients.gametest.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"client": [
+		"IsKeyDownMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

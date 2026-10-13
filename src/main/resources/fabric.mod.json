@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "nbteditorgradients",
+	"version": "${version}",
+	"name": "NBTEditor-Gradients",
+	"description": "An NBT Editor addon: a gradient editor with presets (imported and exported as files) in the display screen, colour codes of any format (MiniMessage, &#rrggbb, JSON, BBCode...) turned into coloured text there and by /iname and /ilore, the size of the item, Ctrl+Z / Ctrl+Y.",
+	"authors": [
+		"Wyv_"
+	],
+	"license": "MIT",
+	"icon": "assets/nbteditorgradients/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.imnot.nbteditorgradients.NbtEditorGradients"
+		],
+		"nbteditor": [
+			"com.imnot.nbteditorgradients.NbtEditorGradients"
+		]
+	},
+	"mixins": [
+		"nbteditorgradients.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.0",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+		"nbteditor": ">=2.0.9"
+	}
+}

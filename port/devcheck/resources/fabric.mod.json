@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "nbteditorgradients-devcheck",
+  "version": "1.0.0",
+  "name": "NBTEditor-Gradients dev check",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.imnot.nbteditorgradients.gametest.DevCheck"]
+  },
+  "mixins": ["nbteditorgradients-devcheck.mixins.json"],
+  "depends": {
+    "nbteditorgradients": "*"
+  }
+}

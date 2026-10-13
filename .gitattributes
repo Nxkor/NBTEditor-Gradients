@@ -1,0 +1,5 @@
+# The scripts and the Gradle wrapper are run by bash: they keep their line ends on every system
+* text=auto eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.png binary

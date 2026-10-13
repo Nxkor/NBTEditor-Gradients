@@ -1,0 +1,66 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+// No client gametest API on these versions: ./gradlew runDevCheck drives the real game instead (see DevCheck).
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "nbteditorgradients-devcheck"
+		enableGameTests = false
+		enableClientGameTests = false
+	}
+}
+
+// Fabric API for 1.17 reads the resources of a mod from one folder only, as in a jar: when the game is run from
+// here, the classes and the resources (the texts) go to the same folder.
+sourceSets.main.output.resourcesDir = sourceSets.main.java.destinationDirectory.get().asFile
+
+loom {
+	mods {
+		"nbteditorgradients" { sourceSet sourceSets.main }
+		"nbteditorgradients-devcheck" { sourceSet sourceSets.gametest }
+	}
+	runs {
+		devCheck {
+			client()
+			source sourceSets.gametest
+			runDir "build/run/devCheck"
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	// Until 1.19.4 Minecraft draws with render(PoseStack...), the very name NBT Editor gave its own method, and Loom
+	// cannot tell them apart. mappings.jar, where there is one, is the mappings of Mojang with such methods of
+	// Minecraft called renderVanilla (made from Loom's own file, see port/port.sh).
+	mappings file("mappings.jar").exists() ? files("mappings.jar") : loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	// The mod this one extends: NBT Editor 2.0.3 is one jar for Minecraft 1.17 to 1.21.4
+	modImplementation files("../../libs/nbteditor-2.0.3.jar")
+}
+
+processResources {
+	inputs.property "version", project.version
+	filesMatching("fabric.mod.json") {
+		expand "version": inputs.properties.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = project.java_version as int
+}
+
+java {
+	sourceCompatibility = JavaVersion.toVersion(project.java_version)
+	targetCompatibility = JavaVersion.toVersion(project.java_version)
+}
